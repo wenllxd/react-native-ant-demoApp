@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { SafeAreaView, View, Image, StyleSheet, Text } from "react-native";
+import { SafeAreaView, Image, View, StyleSheet, Text } from "react-native";
 
-const image1 = require("../../images/home1.png");
-const image2 = require("../../images/home2.png");
+import publishIcon1 from "../../assets/images/publish1.png";
+import publishIcon2 from "../../assets/images/publish2.png";
 
 // 首页
-export default class HomeScene extends Component {
+export default class PublishScene extends Component {
     constructor(props) {
         super(props);
         console.disableYellowBox = true;
@@ -13,12 +13,14 @@ export default class HomeScene extends Component {
     }
 
     static navigationOptions = {
-        tabBarLabel: "首页",
+        tabBarLabel: "发布",
         tabBarIcon: ({ focused }) => {
             if (focused) {
-                return <Image style={styles.tabBarIcon} source={image2} />;
+                return (
+                    <Image style={styles.tabBarIcon} source={publishIcon2} />
+                );
             }
-            return <Image style={styles.tabBarIcon} source={image1} />;
+            return <Image style={styles.tabBarIcon} source={publishIcon1} />;
         }
     };
 
@@ -26,7 +28,7 @@ export default class HomeScene extends Component {
         return (
             <SafeAreaView style={styles.container}>
                 <View>
-                    <Text>首页</Text>
+                    <Text>发布</Text>
                 </View>
             </SafeAreaView>
         );
@@ -40,7 +42,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#eee"
     },
     tabBarIcon: {
-        width: 32,
-        height: 32
+        width: 24,
+        height: 24
     }
 });

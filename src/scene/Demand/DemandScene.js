@@ -1,41 +1,38 @@
 import React, { Component } from "react";
-import {
-    View,
-    AsyncStorage,
-    SafeAreaView,
-    Image,
-    StyleSheet,
-    Text
-} from "react-native";
+import { SafeAreaView, Image, View, StyleSheet, Text } from "react-native";
 
-const mine1 = require("../../images/mine1.png");
-const mine2 = require("../../images/mine2.png");
+import demandIcon1 from "../../assets/images/demand1.png";
+import demandIcon2 from "../../assets/images/demand2.png";
 
-// 我的--个人中心页面
-export default class MineScene extends Component {
+// 求
+export default class DemandScene extends Component {
     constructor(props) {
         super(props);
+        console.disableYellowBox = true;
         this.state = {};
     }
+
     static navigationOptions = {
-        tabBarLabel: "我的",
+        tabBarLabel: "求",
         tabBarIcon: ({ focused }) => {
             if (focused) {
-                return <Image style={styles.tabBarIcon} source={mine2} />;
+                return <Image style={styles.tabBarIcon} source={demandIcon2} />;
             }
-            return <Image style={styles.tabBarIcon} source={mine1} />;
+            return <Image style={styles.tabBarIcon} source={demandIcon1} />;
         }
     };
+
     render() {
         return (
             <SafeAreaView style={styles.container}>
                 <View>
-                    <Text>个人中心</Text>
+                    <Text>求页面</Text>
                 </View>
             </SafeAreaView>
         );
     }
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -43,7 +40,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#eee"
     },
     tabBarIcon: {
-        width: 22,
-        height: 22
+        width: 20,
+        height: 20
     }
 });

@@ -1,24 +1,23 @@
 import React, { Component } from "react";
-import { SafeAreaView, Image, View, StyleSheet, Text } from "react-native";
+import { SafeAreaView, View, Image, StyleSheet, Text } from "react-native";
 
-const demand1 = require("../../images/demand1.png");
-const demand2 = require("../../images/demand2.png");
+import sellIcon1 from "../../assets/images/sell1.png";
+import sellIcon2 from "../../assets/images/sell2.png";
 
-// 求
-export default class DemandScene extends Component {
+// 首页
+export default class SellScene extends Component {
     constructor(props) {
         super(props);
         console.disableYellowBox = true;
         this.state = {};
     }
-
     static navigationOptions = {
-        tabBarLabel: "求",
+        tabBarLabel: "淘",
         tabBarIcon: ({ focused }) => {
             if (focused) {
-                return <Image style={styles.tabBarIcon} source={demand2} />;
+                return <Image style={styles.tabBarIcon} source={sellIcon2} />;
             }
-            return <Image style={styles.tabBarIcon} source={demand1} />;
+            return <Image style={styles.tabBarIcon} source={sellIcon1} />;
         }
     };
 
@@ -26,7 +25,7 @@ export default class DemandScene extends Component {
         return (
             <SafeAreaView style={styles.container}>
                 <View>
-                    <Text>求页面</Text>
+                    <Text>淘</Text>
                 </View>
             </SafeAreaView>
         );
@@ -40,7 +39,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#eee"
     },
     tabBarIcon: {
-        width: 20,
-        height: 20
+        width: 22,
+        height: 22
     }
 });
