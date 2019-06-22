@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Text, Button } from "react-native";
 import {
     createBottomTabNavigator,
     createStackNavigator
@@ -20,7 +21,31 @@ const HomeStack = createStackNavigator({
     Home: {
         screen: HomeScene,
         navigationOptions: {
-            headerTitle: "主页标题"
+            headerTitle: "主页标题",
+            headerBackTitle: "返回主页"
+        }
+    },
+    Detail: {
+        // 某个子页面
+        screen: SellScene,
+        navigationOptions: ({ navigation }) => {
+            const { params } = navigation.state;
+            // backRouteName参数 在页面调用的时候一定要定义，否则报错
+
+            let name = params.backRouteName ? params.backRouteName : "Home";
+            console.log(navigation);
+            return {
+                headerTitle: "详情标题",
+                headerBackTitle: "返回详情",
+                headerLeft: (
+                    <Button
+                        title="返回"
+                        onPress={() => {
+                            navigation.navigate(name);
+                        }}
+                    />
+                )
+            };
         }
     }
 });
@@ -28,7 +53,8 @@ const DemandStack = createStackNavigator({
     Demand: {
         screen: DemandScene,
         navigationOptions: {
-            headerTitle: "求标题"
+            headerTitle: "求标题",
+            headerBackTitle: "返回q求"
         }
     }
 });
@@ -36,7 +62,8 @@ const PublishStack = createStackNavigator({
     Publish: {
         screen: PublishScene,
         navigationOptions: {
-            headerTitle: "创标题"
+            headerTitle: "创标题",
+            headerBackTitle: "返回创"
         }
     }
 });
@@ -44,7 +71,8 @@ const SellStack = createStackNavigator({
     Sell: {
         screen: SellScene,
         navigationOptions: {
-            headerTitle: "淘标题"
+            headerTitle: "淘标题",
+            headerBackTitle: "返回淘"
         }
     }
 });
@@ -52,7 +80,8 @@ const MineStack = createStackNavigator({
     Mine: {
         screen: MineScene,
         navigationOptions: {
-            headerTitle: "个人中心"
+            headerTitle: "个人中心",
+            headerBackTitle: "返回我的"
         }
     },
     Login: {
@@ -101,10 +130,10 @@ const BottomNavigator = createBottomTabNavigator(
             navigationOptions: {
                 tabBarLabel: "Mine2"
             }
-        },
-        AuthTest: {
-            screen: AuthTest
         }
+        /* AuthTest: {
+            screen: AuthTest
+        }*/
     },
     {
         initialRouteName: "Mine2", // 第一次加载时初始化选项卡路由的routeName

@@ -17,19 +17,16 @@ import {
 // 路由配置文件
 // 引入页面,新建页面要在这里引入
 import BottomNavigator from "../scene/BottomTab/index.js";
-import HomeScene from "../scene/Home/HomeScene";
-import DemandScene from "../scene/Demand/DemandScene";
-import PublishScene from "../scene/Publish/PublishScene";
-import SellScene from "../scene/Sell/SellScene";
-import MineScene from "../scene/Mine/MineScene";
 import LoginScene from "../scene/Mine/LoginScene";
 import RegisterScene from "../scene/Mine/RegisterScene";
-import AuthTest from "../scene/Mine/AuthTest";
 
-// 测试身份验证的一个单独路由,成功
+/**
+ * 验证登录状态流程（暂时先判断个人中心）
+ * 1.点击个人中心--->
+ */
 
 //获取身份状态
-/*
+
 class AuthLoadingScreen extends Component {
     constructor(props) {
         super(props);
@@ -70,7 +67,7 @@ class SignInScreen extends Component {
         );
     }
 }
-
+/*
 class HomeScreen extends Component {
     static navigationOptions = {
         title: "Welcome to the HomePage"
@@ -170,18 +167,43 @@ const Bottom = createBottomTabNavigator({
     }
 });
 */
-
-//const AppContainer = createAppContainer(RootStack);
+// 可以在这里增加不需要显示底部导航的页面，但是要手动返回
+const LoginStack = createStackNavigator({
+    Login1: {
+        screen: LoginScene,
+        navigationOptions: {
+            headerTitle: "登录",
+            headerTintColor: "blue"
+        }
+    }
+});
+const RegStack = createStackNavigator({
+    Register1: {
+        screen: RegisterScene,
+        navigationOptions: {
+            headerTitle: "注册"
+        }
+    }
+});
+/*
+//验证路由配置
+const AuthStack = createStackNavigator({
+    SignIn: SignInScreen
+});
+*/
 
 const AppContainer = createAppContainer(
     createSwitchNavigator(
         {
-            BottomTab: BottomNavigator
+            BottomTab: BottomNavigator,
+            Login: LoginStack,
+            Register: RegStack
             //App: AppStack,
             //Auth: AuthStack
         },
         {
             initialRouteName: "BottomTab"
+            // 当backBehavior的值为默认值none时，从注册或登录页面跳转到首页后按下系统返回键不退回到注册或登录页面
         }
     )
 );

@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { SafeAreaView, View, Image, StyleSheet, Text } from "react-native";
+import {
+    SafeAreaView,
+    View,
+    Image,
+    Button,
+    StyleSheet,
+    Text
+} from "react-native";
 
 import sellIcon1 from "../../assets/images/sell1.png";
 import sellIcon2 from "../../assets/images/sell2.png";
@@ -26,6 +33,12 @@ export default class SellScene extends Component {
             <SafeAreaView style={styles.container}>
                 <View>
                     <Text>淘</Text>
+                    <Button
+                        title="返回"
+                        onPress={() => {
+                            this.props.navigation.goBack();
+                        }}
+                    />
                 </View>
             </SafeAreaView>
         );

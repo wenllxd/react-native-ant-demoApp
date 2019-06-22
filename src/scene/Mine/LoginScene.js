@@ -41,6 +41,13 @@ export default class Login extends Component {
                         }}
                     />
                 </View>
+                <Text
+                    onPress={() => {
+                        this.props.navigation.navigate("Home2");
+                    }}
+                >
+                    返回
+                </Text>
             </SafeAreaView>
         );
     }

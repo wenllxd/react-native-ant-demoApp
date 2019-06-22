@@ -5,7 +5,8 @@ import {
     SafeAreaView,
     Image,
     StyleSheet,
-    Text
+    Text,
+    Button
 } from "react-native";
 
 import mineIcon1 from "../../assets/images/mine1.png";
@@ -30,37 +31,47 @@ export default class MineScene extends Component {
         }
     };
     render() {
+        const { navigate, state, setParams } = this.props.navigation;
         return (
             <SafeAreaView style={styles.container}>
                 <View>
                     <Text
                         onPress={() => {
-                            this.props.navigation.navigate("Login");
+                            navigate("Login");
                         }}
                     >
                         跳到登录页面
                     </Text>
                     <Text
                         onPress={() => {
-                            this.props.navigation.navigate("Register");
+                            navigate("Register");
                         }}
                     >
                         跳到注册页面
                     </Text>
                     <Text
                         onPress={() => {
-                            this.props.navigation.navigate("Sell");
+                            navigate("Sell");
                         }}
                     >
                         跳到淘页面
                     </Text>
                     <Text
                         onPress={() => {
-                            this.props.navigation.navigate("AuthTest");
+                            navigate("AuthTest");
                         }}
                     >
                         跳到测试页面
                     </Text>
+                    <Button
+                        title="跳转到别的页面的子路由"
+                        onPress={() => {
+                            navigate("Detail", {
+                                // 退回的上一级页面,而不是父页面
+                                backRouteName: state.routeName
+                            });
+                        }}
+                    />
                 </View>
             </SafeAreaView>
         );

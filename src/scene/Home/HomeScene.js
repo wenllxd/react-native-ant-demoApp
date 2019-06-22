@@ -29,6 +29,9 @@ export default class HomeScene extends Component {
     };
 
     render() {
+        const { navigate, state, setParams } = this.props.navigation;
+
+        console.log(this.props.navigation); //输出Home本页面的navigation
         return (
             <SafeAreaView style={styles.container}>
                 <View>
@@ -36,7 +39,10 @@ export default class HomeScene extends Component {
                     <Button
                         title="跳转"
                         onPress={() => {
-                            this.props.navigation.navigate("Login");
+                            this.props.navigation.navigate("Detail", {
+                                // 退回的上一级页面,而不是父页面
+                                backRouteName: state.routeName
+                            });
                         }}
                     />
                 </View>
