@@ -4,7 +4,7 @@ import {
     createBottomTabNavigator,
     createStackNavigator
 } from "react-navigation";
-
+import AsyncStorage from "@react-native-community/async-storage";
 // 引入页面
 import HomeScene from "../Home/HomeScene";
 import DemandScene from "../Demand/DemandScene";

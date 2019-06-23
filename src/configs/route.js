@@ -4,10 +4,10 @@ import {
     Text,
     Button,
     View,
-    AsyncStorage,
     ActivityIndicator,
     StatusBar
 } from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
 import {
     createStackNavigator,
     createBottomTabNavigator,
@@ -25,8 +25,7 @@ import RegisterScene from "../scene/Mine/RegisterScene";
  * 1.点击个人中心--->
  */
 
-//获取身份状态
-
+//全局--获取身份状态
 class AuthLoadingScreen extends Component {
     constructor(props) {
         super(props);
@@ -35,9 +34,9 @@ class AuthLoadingScreen extends Component {
     }
     //获取user token
     _getAsyncState = async () => {
-        const userToken = await AsyncStorage.getItem("userToken");
+        const userToken = await AsyncStorage.getItem("user");
         //如果有token则跳转到主页，否则跳到登录操作去登录
-        this.props.navigation.navigate(userToken ? "App" : "Auth");
+        this.props.navigation.navigate(userToken ? "Mine" : "Login1");
     };
     render() {
         return (
@@ -57,7 +56,7 @@ class SignInScreen extends Component {
     };
     _signInAsync = async () => {
         await AsyncStorage.setItem("userToken", "abc");
-        this.props.navigation.navigate("App");
+        this.props.navigation.navigate("BottomTab");
     };
     render() {
         return (
@@ -185,24 +184,20 @@ const RegStack = createStackNavigator({
         }
     }
 });
-/*
+
 //验证路由配置
-const AuthStack = createStackNavigator({
-    SignIn: SignInScreen
-});
-*/
 
 const AppContainer = createAppContainer(
     createSwitchNavigator(
         {
             BottomTab: BottomNavigator,
             Login: LoginStack,
-            Register: RegStack
+            Register: RegStack,
             //App: AppStack,
-            //Auth: AuthStack
+            Auth: AuthLoadingScreen
         },
         {
-            initialRouteName: "BottomTab"
+            initialRouteName: "Auth"
             // 当backBehavior的值为默认值none时，从注册或登录页面跳转到首页后按下系统返回键不退回到注册或登录页面
         }
     )
