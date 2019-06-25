@@ -8,8 +8,10 @@ import {
     TextInput,
     Alert
 } from "react-native";
+import axios from "axios";
 import AsyncStorage from "@react-native-community/async-storage";
 import UserAvatar from "../../components/UserAvatar";
+import "../../assets/data/data1.js";
 
 // 用户登录页
 export default class Login extends Component {
@@ -18,13 +20,14 @@ export default class Login extends Component {
         this.state = {
             name: "",
             pwd: "",
-            showPwd: ""
+            isLogin: false
         };
         this._getAsyncState();
     }
 
     _getAsyncState = async () => {
-        const userToken = await AsyncStorage.getItem("user");
+        // key为name,存的值是用户名
+        const userToken = await AsyncStorage.getItem("name");
         if (userToken) {
             /** 这里还有点问题，已经登录的时候会进到这个登录页判断状态再调回中心页，
              * 应该在点击链接的地方加判断
@@ -35,13 +38,12 @@ export default class Login extends Component {
         }
     };
 
-    _setAsyncState = async () => {
-        await AsyncStorage.setItem("user", "pwd123");
-
+    _setAsyncState = async name => {
+        await AsyncStorage.setItem("name", name);
         this.props.navigation.navigate("BottomTab");
     };
 
-    // 密码处理
+    // 密码处理,这个暂时用不上了,用RN TextInput自带的 secureTextEntry属性替代
     _pwdFormat = text => {
         // 因为text是 ****8,只有最后一个数字没有被替换,每次拼接最后一个得到的就是最终输入密码
         let val = this.state.pwd + text.replace(/\*/g, "");
@@ -60,23 +62,43 @@ export default class Login extends Component {
     };
 
     // 提交验证
-    _submitAuth = () => {
+    _submitAuth = async () => {
         let message = ""; // 提示框消息
         if (this.state.name == "") {
             message = "请输入用户名";
         } else if (this.state.pwd == "") {
             message = "请输入密码";
         } else if (this.state.pwd.length < 6) {
-            message = "密码格式不正确";
+            message = "请输入6位数以上的任意字符";
             //this._setAsyncState();
         } else {
-            message = "登陆成功";
+            // 因为axios是异步请求,如果不用await，会先执行axios后面的操作，导致接收不到数据
+            const resp = await axios
+                .get("/getUser", { dataType: "json" })
+                .then(res => {
+                    console.log(res.data);
+                    if (
+                        res.data.name == this.state.name &&
+                        res.data.pwd == this.state.pwd
+                    ) {
+                        message = "登陆成功";
+                        this.setState({ isLogin: true });
+                    } else {
+                        message = "账号或密码不正确";
+                    }
+                })
+                .catch(err => {
+                    message = "网络错误";
+                    console.log(err);
+                });
+            console.log(resp);
         }
-        console.log(this.state.name);
-        console.log(this.state.pwd);
-        Alert.alert("提示", message);
-
-        //this._setAsyncState();
+        if (this.state.isLogin) {
+            //存储用户名并跳转
+            this._setAsyncState(this.state.name);
+        } else {
+            Alert.alert("提示", message);
+        }
     };
     render() {
         return (
@@ -88,6 +110,7 @@ export default class Login extends Component {
                     <UserAvatar />
                     <TextInput
                         placeholder="请输入账号"
+                        autoCapitalize="none"
                         onChangeText={text => {
                             this.setState({ name: text });
                         }}
@@ -95,11 +118,13 @@ export default class Login extends Component {
                     />
                     <TextInput
                         placeholder="请输入密码"
+                        autoCapitalize="none"
+                        secureTextEntry={true}
                         onChangeText={text => {
-                            this.setState({ showPwd: this._pwdFormat(text) });
+                            this.setState({ pwd: text });
                         }}
                         style={styles.input}
-                        value={this.state.showPwd}
+                        value={this.state.pwd}
                     />
                     <View style={styles.touchView}>
                         <Button

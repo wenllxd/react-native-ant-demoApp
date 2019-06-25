@@ -5,7 +5,8 @@ import {
     Button,
     Image,
     StyleSheet,
-    Text
+    Text,
+    StatusBar
 } from "react-native";
 import homeIcon1 from "../../assets/images/home1.png";
 import homeIcon2 from "../../assets/images/home2.png";
@@ -34,6 +35,7 @@ export default class HomeScene extends Component {
         console.log(this.props.navigation); //输出Home本页面的navigation
         return (
             <SafeAreaView style={styles.container}>
+                <StatusBar barStyle="dark-content" backgroundColor="red" />
                 <View>
                     <Text>首页</Text>
                     <Button

@@ -13,42 +13,58 @@ import SellScene from "../Sell/SellScene";
 import MineScene from "../Mine/MineScene";
 import LoginScene from "../Mine/LoginScene";
 import RegisterScene from "../Mine/RegisterScene";
+import UserInfoScene from "../Mine/UserInfoScene";
 
 import AuthTest from "../Mine/AuthTest";
 
 // 按这个格式新增路由，如果是子路由就放到对应主路由下，各页面也可以互相调用
-const HomeStack = createStackNavigator({
-    Home: {
-        screen: HomeScene,
-        navigationOptions: {
-            headerTitle: "主页标题",
-            headerBackTitle: "返回主页"
+const HomeStack = createStackNavigator(
+    {
+        Home: {
+            screen: HomeScene,
+            navigationOptions: {
+                headerTitle: "主页",
+                headerBackTitle: "返回主页",
+                headerTintColor: "#fff",
+                headerStyle: {
+                    backgroundColor: "#e91e63"
+                }
+                //headerTintColor: "#e91e63" // 字体颜色
+            }
+        },
+        Detail: {
+            // 某个子页面
+            screen: SellScene,
+            navigationOptions: ({ navigation }) => {
+                const { params } = navigation.state;
+                // backRouteName参数 在页面调用的时候一定要定义，否则报错
+
+                let name = params.backRouteName ? params.backRouteName : "Home";
+                console.log(navigation);
+                return {
+                    headerTitle: "详情标题",
+                    headerBackTitle: "返回详情",
+                    headerLeft: (
+                        <Button
+                            title="返回"
+                            onPress={() => {
+                                navigation.navigate(name);
+                            }}
+                        />
+                    )
+                };
+            }
         }
     },
-    Detail: {
-        // 某个子页面
-        screen: SellScene,
-        navigationOptions: ({ navigation }) => {
-            const { params } = navigation.state;
-            // backRouteName参数 在页面调用的时候一定要定义，否则报错
-
-            let name = params.backRouteName ? params.backRouteName : "Home";
-            console.log(navigation);
-            return {
-                headerTitle: "详情标题",
-                headerBackTitle: "返回详情",
-                headerLeft: (
-                    <Button
-                        title="返回"
-                        onPress={() => {
-                            navigation.navigate(name);
-                        }}
-                    />
-                )
-            };
+    {
+        defaultNavigatorOptions: {
+            headerTintColor: "#fff",
+            headerStyle: {
+                backgroundColor: "#e91e63"
+            }
         }
     }
-});
+);
 const DemandStack = createStackNavigator({
     Demand: {
         screen: DemandScene,
@@ -81,7 +97,11 @@ const MineStack = createStackNavigator({
         screen: MineScene,
         navigationOptions: {
             headerTitle: "个人中心",
-            headerBackTitle: "返回我的"
+            headerBackTitle: "个人中心",
+            headerTintColor: "#fff",
+            headerStyle: {
+                backgroundColor: "#e91e63"
+            }
         }
     },
     Login: {
@@ -94,6 +114,12 @@ const MineStack = createStackNavigator({
         screen: RegisterScene,
         navigationOptions: {
             headerTitle: "注册"
+        }
+    },
+    UserInfo: {
+        screen: UserInfoScene,
+        navigationOptions: {
+            headerBackTitle: "返回"
         }
     }
 });

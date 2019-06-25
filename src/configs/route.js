@@ -34,7 +34,7 @@ class AuthLoadingScreen extends Component {
     }
     //获取user token
     _getAsyncState = async () => {
-        const userToken = await AsyncStorage.getItem("user");
+        const userToken = await AsyncStorage.getItem("name");
         //如果有token则跳转到主页，否则跳到登录操作去登录
         this.props.navigation.navigate(userToken ? "Mine" : "Login1");
     };
@@ -48,124 +48,6 @@ class AuthLoadingScreen extends Component {
     }
 }
 
-//登录操作
-class SignInScreen extends Component {
-    //登录
-    static navigationOptions = {
-        title: "please sign in"
-    };
-    _signInAsync = async () => {
-        await AsyncStorage.setItem("userToken", "abc");
-        this.props.navigation.navigate("BottomTab");
-    };
-    render() {
-        return (
-            <View style={styles.container}>
-                <Button title="登录" onPress={this._signInAsync} />
-            </View>
-        );
-    }
-}
-/*
-class HomeScreen extends Component {
-    static navigationOptions = {
-        title: "Welcome to the HomePage"
-    };
-    _signOutAsync = async () => {
-        await AsyncStorage.clear();
-        this.props.navigation.navigate("Auth");
-    };
-    render() {
-        return (
-            <View style={styles.container}>
-                <Button
-                    title="go to onther"
-                    onPress={() => {
-                        this.props.navigation.navigate("Other");
-                    }}
-                />
-                <Button title="sign out" onPress={this._signOutAsync} />
-            </View>
-        );
-    }
-}
-
-class OtherScreen extends Component {
-    static navigationOptions = {
-        title: "其他页面"
-    };
-    _signOutAsync = async () => {
-        await AsyncStorage.clear();
-        this.props.navigation.navigate("Auth");
-    };
-    render() {
-        return (
-            <View style={styles.container}>
-                <Text>其他内容</Text>
-                <Button title="sign out" onPress={this._signOutAsync} />
-            </View>
-        );
-    }
-}
-//页面路由配置
-
-const AppStack = createStackNavigator({
-    AppHome: HomeScreen,
-    Other: OtherScreen
-});
-
-//验证路由配置
-const AuthStack = createStackNavigator({
-    SignIn: SignInScreen
-});
-*/
-
-/*
-const HomeStack = createStackNavigator({
-    Main: {
-        screen: HomeScene,
-        navigationOptions: {
-            headerTitle: "主页"
-        }
-    },
-    Sell: {
-        screen: SellScene,
-        navigationOptions: {
-            headerTitle: "淘页面"
-        }
-    }
-});
-
-const MineStack = createStackNavigator({
-    Mine: {
-        screen: MineScene,
-        navigationOptions: {
-            headerTitle: "个人"
-        }
-    },
-    MineDetail: {
-        screen: LoginScene,
-        navigationOptions: {
-            headerTitle: "个人2"
-        }
-    }
-});
-
-const Bottom = createBottomTabNavigator({
-    Home2: {
-        screen: HomeStack,
-        navigationOptions: {
-            tabBarLabel: "Home2"
-        }
-    },
-    Mine2: {
-        screen: MineStack,
-        navigationOptions: {
-            tabBarLabel: "Mine2"
-        }
-    }
-});
-*/
 // 可以在这里增加不需要显示底部导航的页面，但是要手动返回
 const LoginStack = createStackNavigator({
     Login1: {
