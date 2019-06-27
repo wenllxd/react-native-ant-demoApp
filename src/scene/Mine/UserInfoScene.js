@@ -20,20 +20,32 @@ export default class UserInfo extends Component {
         super(props);
         this.state = {
             isLogin: false,
-            username: ""
+            username: "",
+            nickName: "",
+            avatar: null,
+            pwd: ""
         };
+
         this._getAsyncState();
     }
+
     _getAsyncState = async () => {
         // key为name,值为用户名
-        const userToken = await AsyncStorage.getItem("name");
+        const userToken = await AsyncStorage.getItem("user");
+        let userData = JSON.parse(userToken);
+
         // console.log(userToken); // 输出密码
         //如果有token则跳转到主页，否则跳到登录操作去登录
         if (userToken) {
             this.setState({
                 isLogin: true,
-                username: userToken
+                username: userData.name,
+                pwd: userData.pwd,
+                nickName: userData.nickName,
+                avatar: userData.avatar
             });
+
+            //console.log(this.avatar === null);
         } else {
             // Login1 外面的路由
             this.props.navigation.navigate("Login1");
@@ -43,14 +55,47 @@ export default class UserInfo extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <TouchableOpacity style={styles.avatarView}>
+                <TouchableOpacity
+                    style={styles.avatarView}
+                    onPress={() => {
+                        this.props.navigation.navigate("UploadAvatar");
+                    }}
+                >
                     <Text style={styles.avatarText}>头像</Text>
-                    <Image source={defaultImg} style={styles.avatar} />
+                    <Image
+                        source={
+                            this.state.avatar === null
+                                ? defaultImg
+                                : this.state.avatar
+                        }
+                        style={styles.avatar}
+                    />
                     <Image source={arrowRight} style={styles.img} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.InfoView}>
+                <View style={styles.InfoView}>
                     <Text style={styles.infoText}>用户名</Text>
                     <Text style={styles.infoName}>{this.state.username}</Text>
+                    <Image
+                        source={(arrowRight, { opacity: 0 })}
+                        style={styles.infoImg}
+                    />
+                </View>
+                <TouchableOpacity style={styles.InfoView}>
+                    <Text style={styles.infoText}>昵称</Text>
+                    <Text style={styles.infoName}>
+                        {this.state.nickName === ""
+                            ? this.state.username
+                            : this.state.nickName}
+                    </Text>
+                    <Image source={arrowRight} style={styles.infoImg} />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.InfoView}>
+                    <Text style={styles.infoText}>密码</Text>
+                    <Text style={styles.infoName}>
+                        {this.state.nickName === ""
+                            ? this.state.username
+                            : this.state.nickName}
+                    </Text>
                     <Image source={arrowRight} style={styles.infoImg} />
                 </TouchableOpacity>
                 <Text>用户信息修改界面</Text>
@@ -118,7 +163,8 @@ const styles = StyleSheet.create({
     infoText: {
         flex: 5,
         height: 60,
-        lineHeight: 60
+        lineHeight: 60,
+        marginLeft: 15
     },
     infoName: {
         flex: 1,

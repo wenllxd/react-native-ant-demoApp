@@ -8,9 +8,6 @@ import {
     Text
 } from "react-native";
 
-import sellIcon1 from "../../assets/images/sell1.png";
-import sellIcon2 from "../../assets/images/sell2.png";
-
 // 首页
 export default class SellScene extends Component {
     constructor(props) {
@@ -18,15 +15,6 @@ export default class SellScene extends Component {
         console.disableYellowBox = true;
         this.state = {};
     }
-    static navigationOptions = {
-        tabBarLabel: "淘",
-        tabBarIcon: ({ focused }) => {
-            if (focused) {
-                return <Image style={styles.tabBarIcon} source={sellIcon2} />;
-            }
-            return <Image style={styles.tabBarIcon} source={sellIcon1} />;
-        }
-    };
 
     render() {
         return (
@@ -50,9 +38,5 @@ const styles = StyleSheet.create({
         flex: 1,
         color: "#555",
         backgroundColor: "#eee"
-    },
-    tabBarIcon: {
-        width: 22,
-        height: 22
     }
 });

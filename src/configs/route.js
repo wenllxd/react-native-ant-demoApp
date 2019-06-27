@@ -10,7 +10,6 @@ import {
 import AsyncStorage from "@react-native-community/async-storage";
 import {
     createStackNavigator,
-    createBottomTabNavigator,
     createAppContainer,
     createSwitchNavigator
 } from "react-navigation";
@@ -19,6 +18,12 @@ import {
 import BottomNavigator from "../scene/BottomTab/index.js";
 import LoginScene from "../scene/Mine/LoginScene";
 import RegisterScene from "../scene/Mine/RegisterScene";
+
+import MineScene from "../scene/Mine/MineScene";
+import MyPublish from "../scene/Mine/myPublish";
+import MyCollect from "../scene/Mine/myCollect";
+import UserInfoScene from "../scene/Mine/UserInfoScene";
+import UploadAvatarScene from "../scene/Mine/uploadAvatarScene";
 
 /**
  * 验证登录状态流程（暂时先判断个人中心）
@@ -34,9 +39,12 @@ class AuthLoadingScreen extends Component {
     }
     //获取user token
     _getAsyncState = async () => {
-        const userToken = await AsyncStorage.getItem("name");
+        //这里如果要取用户信息，则需要反序列化userToken
+        const userToken = await AsyncStorage.getItem("user");
+        console.log("路由route打印:" + userToken);
         //如果有token则跳转到主页，否则跳到登录操作去登录
         this.props.navigation.navigate(userToken ? "Mine" : "Login1");
+        //his.props.navigation.navigate("Home");
     };
     render() {
         return (
@@ -67,6 +75,114 @@ const RegStack = createStackNavigator({
     }
 });
 
+//MineStack1作用：个人中心子页面没有tab,但是返回到个人中心时要有tab
+const MineStack1 = createStackNavigator({
+    Mine: {
+        screen: MineScene,
+        navigationOptions: {
+            headerTitle: "个人中心",
+            headerBackTitle: "个人中心",
+            headerTintColor: "#fff",
+            headerStyle: {
+                backgroundColor: "#e91e63"
+            }
+        }
+    },
+    Login: {
+        screen: LoginScene,
+        navigationOptions: {
+            headerTitle: "登录"
+        }
+    },
+    Register: {
+        screen: RegisterScene,
+        navigationOptions: {
+            headerTitle: "注册"
+        }
+    },
+    UserInfo: {
+        screen: UserInfoScene,
+        navigationOptions: ({ navigation }) => {
+            const { params } = navigation.state;
+            // backRouteName参数 在页面调用的时候一定要定义，否则报错
+
+            let name = params.backRouteName ? params.backRouteName : "Home";
+            console.log(navigation);
+            return {
+                headerTitle: "个人信息",
+                headerBackTitle: "设置",
+                headerLeft: (
+                    <Button
+                        title="返回"
+                        onPress={() => {
+                            navigation.navigate(name);
+                        }}
+                    />
+                )
+            };
+        }
+    },
+    UploadAvatar: {
+        screen: UploadAvatarScene
+        /*
+        navigationOptions: ({ navigation }) => {
+            const { params } = navigation.state;
+            // backRouteName参数 在页面调用的时候一定要定义，否则报错
+
+            //let name = params.backRouteName ? params.backRouteName : "Home";
+            console.log(navigation);
+            return {
+                //headerRight: <Button title="修改头像" onPress={() => {}} />
+                headerRight: <GetPhoto />
+            };
+        }*/
+    },
+    MyPublish: {
+        screen: MyPublish,
+        navigationOptions: ({ navigation }) => {
+            const { params } = navigation.state;
+            // backRouteName参数 在页面调用的时候一定要定义，否则报错
+
+            let name = params.backRouteName ? params.backRouteName : "Home";
+            console.log(navigation);
+            return {
+                headerTitle: "个人信息",
+                headerBackTitle: "返回",
+                headerLeft: (
+                    <Button
+                        title="返回"
+                        onPress={() => {
+                            navigation.navigate(name);
+                        }}
+                    />
+                )
+            };
+        }
+    },
+    MyCollect: {
+        screen: MyCollect,
+        navigationOptions: ({ navigation }) => {
+            const { params } = navigation.state;
+            // backRouteName参数 在页面调用的时候一定要定义，否则报错
+
+            let name = params.backRouteName ? params.backRouteName : "Home";
+            console.log(navigation);
+            return {
+                headerTitle: "个人信息",
+                headerBackTitle: "返回",
+                headerLeft: (
+                    <Button
+                        title="返回"
+                        onPress={() => {
+                            navigation.navigate(name);
+                        }}
+                    />
+                )
+            };
+        }
+    }
+});
+
 //验证路由配置
 
 const AppContainer = createAppContainer(
@@ -75,6 +191,7 @@ const AppContainer = createAppContainer(
             BottomTab: BottomNavigator,
             Login: LoginStack,
             Register: RegStack,
+            Mine1: MineStack1,
             //App: AppStack,
             Auth: AuthLoadingScreen
         },

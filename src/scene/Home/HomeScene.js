@@ -8,8 +8,7 @@ import {
     Text,
     StatusBar
 } from "react-native";
-import homeIcon1 from "../../assets/images/home1.png";
-import homeIcon2 from "../../assets/images/home2.png";
+import TestImg from "./TestImg";
 
 // 首页
 export default class HomeScene extends Component {
@@ -18,16 +17,6 @@ export default class HomeScene extends Component {
         console.disableYellowBox = true;
         this.state = {};
     }
-
-    static navigationOptions = {
-        tabBarLabel: "首页",
-        tabBarIcon: ({ focused }) => {
-            if (focused) {
-                return <Image style={styles.tabBarIcon} source={homeIcon2} />;
-            }
-            return <Image style={styles.tabBarIcon} source={homeIcon1} />;
-        }
-    };
 
     render() {
         const { navigate, state, setParams } = this.props.navigation;
@@ -47,6 +36,7 @@ export default class HomeScene extends Component {
                             });
                         }}
                     />
+                    <TestImg />
                 </View>
             </SafeAreaView>
         );

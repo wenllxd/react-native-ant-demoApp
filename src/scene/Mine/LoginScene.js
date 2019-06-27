@@ -20,14 +20,16 @@ export default class Login extends Component {
         this.state = {
             name: "",
             pwd: "",
-            isLogin: false
+            isLogin: false,
+            avatar: null, //存到storage中
+            nickName: ""
         };
         this._getAsyncState();
     }
 
     _getAsyncState = async () => {
         // key为name,存的值是用户名
-        const userToken = await AsyncStorage.getItem("name");
+        const userToken = await AsyncStorage.getItem("user");
         if (userToken) {
             /** 这里还有点问题，已经登录的时候会进到这个登录页判断状态再调回中心页，
              * 应该在点击链接的地方加判断
@@ -38,8 +40,16 @@ export default class Login extends Component {
         }
     };
 
-    _setAsyncState = async name => {
-        await AsyncStorage.setItem("name", name);
+    _setAsyncState = async (name, pwd) => {
+        let key = "user";
+        let data = {
+            name: name,
+            pwd: pwd,
+            avatar: this.state.avatar,
+            nickName: this.state.nickName
+        };
+        let jsonStr = JSON.stringify(data);
+        await AsyncStorage.setItem(key, jsonStr);
         this.props.navigation.navigate("BottomTab");
     };
 
@@ -76,7 +86,7 @@ export default class Login extends Component {
             const resp = await axios
                 .get("/getUser", { dataType: "json" })
                 .then(res => {
-                    console.log(res.data);
+                    console.log("登录打印" + res.data);
                     if (
                         res.data.name == this.state.name &&
                         res.data.pwd == this.state.pwd
@@ -95,7 +105,7 @@ export default class Login extends Component {
         }
         if (this.state.isLogin) {
             //存储用户名并跳转
-            this._setAsyncState(this.state.name);
+            this._setAsyncState(this.state.name, this.state.pwd);
         } else {
             Alert.alert("提示", message);
         }

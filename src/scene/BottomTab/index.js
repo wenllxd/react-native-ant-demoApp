@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, Button } from "react-native";
+import { Text, Button, Image } from "react-native";
 import {
     createBottomTabNavigator,
     createStackNavigator
@@ -14,6 +14,18 @@ import MineScene from "../Mine/MineScene";
 import LoginScene from "../Mine/LoginScene";
 import RegisterScene from "../Mine/RegisterScene";
 import UserInfoScene from "../Mine/UserInfoScene";
+import UploadAvatarScene from "../Mine/uploadAvatarScene";
+
+import homeIcon1 from "../../assets/images/home1.png";
+import homeIcon2 from "../../assets/images/home2.png";
+import demandIcon1 from "../../assets/images/demand1.png";
+import demandIcon2 from "../../assets/images/demand2.png";
+import publishIcon1 from "../../assets/images/publish1.png";
+import publishIcon2 from "../../assets/images/publish2.png";
+import sellIcon1 from "../../assets/images/sell1.png";
+import sellIcon2 from "../../assets/images/sell2.png";
+import mineIcon1 from "../../assets/images/mine1.png";
+import mineIcon2 from "../../assets/images/mine2.png";
 
 import AuthTest from "../Mine/AuthTest";
 
@@ -103,7 +115,7 @@ const MineStack = createStackNavigator({
                 backgroundColor: "#e91e63"
             }
         }
-    },
+    } /*
     Login: {
         screen: LoginScene,
         navigationOptions: {
@@ -121,7 +133,13 @@ const MineStack = createStackNavigator({
         navigationOptions: {
             headerBackTitle: "返回"
         }
-    }
+    },
+    UploadAvatar: {
+        screen: UploadAvatarScene,
+        navigationOptions: {
+            headerBackTitle: "返回"
+        }
+    }*/
 });
 
 // 底部导航器的一个单独配置
@@ -130,31 +148,111 @@ const BottomNavigator = createBottomTabNavigator(
         Home2: {
             screen: HomeStack,
             navigationOptions: {
-                tabBarLabel: "Home2"
+                tabBarLabel: "首页",
+                tabBarIcon: ({ focused }) => {
+                    if (focused) {
+                        return (
+                            <Image
+                                style={{ width: 32, height: 32 }}
+                                source={homeIcon2}
+                            />
+                        );
+                    }
+                    return (
+                        <Image
+                            style={{ width: 32, height: 32 }}
+                            source={homeIcon1}
+                        />
+                    );
+                }
             }
         },
         Demand2: {
             screen: DemandStack,
             navigationOptions: {
-                tabBarLabel: "Demand2"
+                tabBarLabel: "求",
+                tabBarIcon: ({ focused }) => {
+                    if (focused) {
+                        return (
+                            <Image
+                                style={{ width: 20, height: 20 }}
+                                source={demandIcon2}
+                            />
+                        );
+                    }
+                    return (
+                        <Image
+                            style={{ width: 20, height: 20 }}
+                            source={demandIcon1}
+                        />
+                    );
+                }
             }
         },
         Publish2: {
             screen: PublishStack,
             navigationOptions: {
-                tabBarLabel: "Publish2"
+                tabBarLabel: "创",
+                tabBarIcon: ({ focused }) => {
+                    if (focused) {
+                        return (
+                            <Image
+                                style={{ width: 24, height: 24 }}
+                                source={publishIcon2}
+                            />
+                        );
+                    }
+                    return (
+                        <Image
+                            style={{ width: 24, height: 24 }}
+                            source={publishIcon1}
+                        />
+                    );
+                }
             }
         },
         Sell2: {
             screen: SellStack,
             navigationOptions: {
-                tabBarLabel: "Sell2"
+                tabBarLabel: "淘",
+                tabBarIcon: ({ focused }) => {
+                    if (focused) {
+                        return (
+                            <Image
+                                style={{ width: 22, height: 22 }}
+                                source={sellIcon2}
+                            />
+                        );
+                    }
+                    return (
+                        <Image
+                            style={{ width: 22, height: 22 }}
+                            source={sellIcon1}
+                        />
+                    );
+                }
             }
         },
         Mine2: {
             screen: MineStack,
             navigationOptions: {
-                tabBarLabel: "Mine2"
+                tabBarLabel: "我的",
+                tabBarIcon: ({ focused }) => {
+                    if (focused) {
+                        return (
+                            <Image
+                                style={{ width: 22, height: 22 }}
+                                source={mineIcon2}
+                            />
+                        );
+                    }
+                    return (
+                        <Image
+                            style={{ width: 22, height: 22 }}
+                            source={mineIcon1}
+                        />
+                    );
+                }
             }
         }
         /* AuthTest: {

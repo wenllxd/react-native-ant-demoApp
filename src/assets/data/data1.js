@@ -5,7 +5,9 @@ import Mock from "mockjs"; //需要install
 
 export default Mock.mock("/getUser", "get", {
     success: true,
-    name: "user1",
-    pwd: "123456",
+    name: "user1", // 用户名
+    pwd: "123456", // 密码
+    nickName: "user1", // 昵称,默认为用户名,
+    avatar: null, // 头像
     message: "@cparagraph"
 });

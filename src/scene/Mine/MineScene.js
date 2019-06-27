@@ -23,7 +23,9 @@ export default class MineScene extends Component {
         console.disableYellowBox = true;
         this.state = {
             isLogin: false,
-            username: ""
+            username: "", //用户名
+            avatar: null,
+            nickName: "" //昵称
         };
         this._getAsyncState();
     }
@@ -42,13 +44,17 @@ export default class MineScene extends Component {
     //获取登录状态
     _getAsyncState = async () => {
         // key为name,值为用户名
-        const userToken = await AsyncStorage.getItem("name");
-        // console.log(userToken); // 输出密码
+        const userToken = await AsyncStorage.getItem("user");
+        //反序列化
+        let userData = JSON.parse(userToken);
+        console.log(JSON.parse(userToken)); // 输出密码
         //如果有token则跳转到主页，否则跳到登录操作去登录
         if (userToken) {
             this.setState({
                 isLogin: true,
-                username: userToken
+                username: userData.name,
+                nickName: userData.nickName,
+                avatar: userData.avatar
             });
         } else {
             // Login1 外面的路由
@@ -80,30 +86,63 @@ export default class MineScene extends Component {
                     style={styles.userInfo}
                     activeOpacity={0.9}
                     onPress={() => {
-                        navigate("UserInfo");
+                        navigate("UserInfo", {
+                            // 退回的上一级路由名区别：Mine2有tab,Mine没有tab
+                            backRouteName: "Mine2"
+                        });
                     }}
                 >
-                    <Image style={styles.avatar} source={defaultImg} />
+                    <Image
+                        style={styles.avatar}
+                        source={
+                            this.state.avatar === null
+                                ? defaultImg
+                                : this.state.avatar
+                        }
+                    />
                     <TouchableOpacity
                         style={styles.userInfo}
                         activeOpacity={0.9}
                     />
                     <View style={styles.userName}>
-                        <Text style={styles.userText}>昵称 : 用户32</Text>
+                        <Text style={styles.userText}>
+                            昵称 :{" "}
+                            {this.state.nickName === ""
+                                ? this.state.username
+                                : this.state.nickName}
+                        </Text>
                         <Text style={styles.userText}>
                             用户名 : {this.state.username}
                         </Text>
                     </View>
                     <Image style={styles.img} source={arrowRight} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.mineList} activeOpacity={0.9}>
+                <TouchableOpacity
+                    style={styles.mineList}
+                    activeOpacity={0.9}
+                    onPress={() => {
+                        this.props.navigation.navigate("MyPublish", {
+                            // 退回的上一级路由名区别：Mine2有tab,Mine没有tab
+                            backRouteName: "Mine2"
+                        });
+                    }}
+                >
                     <Image style={styles.publishImg} source={publish3} />
 
                     <Text style={styles.mineText}>我发布的信息</Text>
 
                     <Image style={styles.img2} source={arrowRight} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.mineList} activeOpacity={0.9}>
+                <TouchableOpacity
+                    style={styles.mineList}
+                    activeOpacity={0.9}
+                    onPress={() => {
+                        this.props.navigation.navigate("MyCollect", {
+                            // 退回的上一级路由名区别：Mine2有tab,Mine没有tab
+                            backRouteName: "Mine2"
+                        });
+                    }}
+                >
                     <Image style={styles.collectImg} source={collect} />
 
                     <Text style={styles.mineText}>我的收藏</Text>
