@@ -7,21 +7,27 @@ export default class MyPublish extends Component {
         super(props);
         this.state = {
             isLogin: false,
-            username: "",
-            image: null,
-            avatarSource: null
+            username: "", //用户名
+            avatar: null,
+            nickName: "" //昵称
         };
         this._getAsyncState();
     }
+
+    //获取登录状态
     _getAsyncState = async () => {
         // key为name,值为用户名
-        const userToken = await AsyncStorage.getItem("name");
-        // console.log(userToken); // 输出密码
+        const userToken = await AsyncStorage.getItem("user");
+        //反序列化
+        let userData = JSON.parse(userToken);
+        console.log(JSON.parse(userToken)); // 输出密码
         //如果有token则跳转到主页，否则跳到登录操作去登录
         if (userToken) {
             this.setState({
                 isLogin: true,
-                username: userToken
+                username: userData.name,
+                nickName: userData.nickName,
+                avatar: userData.avatar
             });
         } else {
             // Login1 外面的路由

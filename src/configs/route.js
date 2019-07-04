@@ -20,11 +20,13 @@ import LoginScene from "../scene/Mine/LoginScene";
 import RegisterScene from "../scene/Mine/RegisterScene";
 
 import MineScene from "../scene/Mine/MineScene";
-import MyPublish from "../scene/Mine/myPublish";
-import MyCollect from "../scene/Mine/myCollect";
+// 子页面
+import MyPublish from "../scene/Mine/myPublish.js";
+import MyCollect from "../scene/Mine/myCollect.js";
 import UserInfoScene from "../scene/Mine/UserInfoScene";
-import UploadAvatarScene from "../scene/Mine/uploadAvatarScene";
-
+import UploadAvatarScene from "../scene/Mine/UploadAvatarScene";
+import UpdatePassword from "../scene/Mine/UpdatePassword";
+import UpdateNickName from "../scene/Mine/UpdateNickName";
 /**
  * 验证登录状态流程（暂时先判断个人中心）
  * 1.点击个人中心--->
@@ -42,8 +44,8 @@ class AuthLoadingScreen extends Component {
         //这里如果要取用户信息，则需要反序列化userToken
         const userToken = await AsyncStorage.getItem("user");
         console.log("路由route打印:" + userToken);
-        //如果有token则跳转到主页，否则跳到登录操作去登录
-        this.props.navigation.navigate(userToken ? "Mine" : "Login1");
+        //如果有token则跳转到个人中心，否则跳到登录操作去登录
+        this.props.navigation.navigate(userToken ? "Publish2" : "Login1");
         //his.props.navigation.navigate("Home");
     };
     render() {
@@ -106,7 +108,7 @@ const MineStack1 = createStackNavigator({
             const { params } = navigation.state;
             // backRouteName参数 在页面调用的时候一定要定义，否则报错
 
-            let name = params.backRouteName ? params.backRouteName : "Home";
+            let name = params.backRouteName ? params.backRouteName : "Mine2";
             console.log(navigation);
             return {
                 headerTitle: "个人信息",
@@ -124,18 +126,12 @@ const MineStack1 = createStackNavigator({
     },
     UploadAvatar: {
         screen: UploadAvatarScene
-        /*
-        navigationOptions: ({ navigation }) => {
-            const { params } = navigation.state;
-            // backRouteName参数 在页面调用的时候一定要定义，否则报错
-
-            //let name = params.backRouteName ? params.backRouteName : "Home";
-            console.log(navigation);
-            return {
-                //headerRight: <Button title="修改头像" onPress={() => {}} />
-                headerRight: <GetPhoto />
-            };
-        }*/
+    },
+    UpdatePassword: {
+        screen: UpdatePassword
+    },
+    UpdateNickName: {
+        screen: UpdateNickName
     },
     MyPublish: {
         screen: MyPublish,
@@ -143,7 +139,7 @@ const MineStack1 = createStackNavigator({
             const { params } = navigation.state;
             // backRouteName参数 在页面调用的时候一定要定义，否则报错
 
-            let name = params.backRouteName ? params.backRouteName : "Home";
+            let name = params.backRouteName ? params.backRouteName : "Mine2";
             console.log(navigation);
             return {
                 headerTitle: "个人信息",
@@ -165,7 +161,7 @@ const MineStack1 = createStackNavigator({
             const { params } = navigation.state;
             // backRouteName参数 在页面调用的时候一定要定义，否则报错
 
-            let name = params.backRouteName ? params.backRouteName : "Home";
+            let name = params.backRouteName ? params.backRouteName : "Mine2";
             console.log(navigation);
             return {
                 headerTitle: "个人信息",

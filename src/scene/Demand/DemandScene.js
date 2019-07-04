@@ -8,13 +8,12 @@ export default class DemandScene extends Component {
         console.disableYellowBox = true;
         this.state = {};
     }
+
     render() {
         return (
-            <SafeAreaView style={styles.container}>
-                <View>
-                    <Text>求页面</Text>
-                </View>
-            </SafeAreaView>
+            <View style={styles.container}>
+                <Text>123</Text>
+            </View>
         );
     }
 }

@@ -25,7 +25,6 @@ export default class UserInfo extends Component {
             avatar: null,
             pwd: ""
         };
-
         this._getAsyncState();
     }
 
@@ -80,7 +79,12 @@ export default class UserInfo extends Component {
                         style={styles.infoImg}
                     />
                 </View>
-                <TouchableOpacity style={styles.InfoView}>
+                <TouchableOpacity
+                    style={styles.InfoView}
+                    onPress={() => {
+                        this.props.navigation.navigate("UpdateNickName");
+                    }}
+                >
                     <Text style={styles.infoText}>昵称</Text>
                     <Text style={styles.infoName}>
                         {this.state.nickName === ""
@@ -89,13 +93,14 @@ export default class UserInfo extends Component {
                     </Text>
                     <Image source={arrowRight} style={styles.infoImg} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.InfoView}>
-                    <Text style={styles.infoText}>密码</Text>
-                    <Text style={styles.infoName}>
-                        {this.state.nickName === ""
-                            ? this.state.username
-                            : this.state.nickName}
-                    </Text>
+                <TouchableOpacity
+                    style={styles.InfoView}
+                    onPress={() => {
+                        this.props.navigation.navigate("UpdatePassword");
+                    }}
+                >
+                    <Text style={styles.infoText}>修改密码</Text>
+
                     <Image source={arrowRight} style={styles.infoImg} />
                 </TouchableOpacity>
                 <Text>用户信息修改界面</Text>

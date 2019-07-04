@@ -86,7 +86,7 @@ export default class Login extends Component {
             const resp = await axios
                 .get("/getUser", { dataType: "json" })
                 .then(res => {
-                    console.log("登录打印" + res.data);
+                    //console.log("登录打印" + res.data);
                     if (
                         res.data.name == this.state.name &&
                         res.data.pwd == this.state.pwd
