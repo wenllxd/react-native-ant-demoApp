@@ -103,7 +103,6 @@ export default class UserInfo extends Component {
 
                     <Image source={arrowRight} style={styles.infoImg} />
                 </TouchableOpacity>
-                <Text>用户信息修改界面</Text>
             </View>
         );
     }

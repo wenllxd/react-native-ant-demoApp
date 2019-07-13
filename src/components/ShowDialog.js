@@ -18,7 +18,7 @@ export default class ShowDialog extends Component {
         super(props);
         this.state = {
             isVisible: this.props.show,
-            selectedVaule: ""
+            selectedValue: "河南 秦皇岛 北戴河区"
         };
     }
 
@@ -31,7 +31,15 @@ export default class ShowDialog extends Component {
         this.props.closeModal(false, "");
     };
     setModalVisible = visible => {
-        this.setState({ isVisible: visible });
+        /**取消之后，只点确定，就是取默认值要点两次才能取到值 */
+        let selectStr = "";
+        if (this.state.selectedValue == "") {
+            selectStr = "河南 秦皇岛 北戴河区";
+        } else {
+            selectStr = this.state.selectedValue;
+        }
+        this.setState({ isVisible: visible, selectedValue: selectStr });
+
         this.props.closeModal(false, this.state.selectedValue);
     };
 
@@ -57,6 +65,9 @@ export default class ShowDialog extends Component {
                             >
                                 <Text style={{ fontSize: 18 }}>取消</Text>
                             </TouchableHighlight>
+                            <View style={styles.choose}>
+                                <Text style={{ fontSize: 18 }}>选择地区</Text>
+                            </View>
                             <TouchableHighlight
                                 style={styles.confirm}
                                 onPress={() => {
@@ -100,17 +111,21 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff"
     },
     cancel: {
-        paddingLeft: 10,
         height: 30,
         flex: 1,
-        alignItems: "flex-start",
-        justifyContent: "center"
+        alignItems: "center",
+        justifyContent: "flex-end"
+    },
+    choose: {
+        height: 30,
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "flex-end"
     },
     confirm: {
-        paddingRight: 10,
         height: 30,
         flex: 1,
-        alignItems: "flex-end",
-        justifyContent: "center"
+        alignItems: "center",
+        justifyContent: "flex-end"
     }
 });

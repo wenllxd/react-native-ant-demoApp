@@ -8,9 +8,9 @@ export default class AreaSelector extends Component {
     // 默认属性
     static defaultProps = {
         // 默认显示北京
-        selectedProvince: "北京",
-        selectedCity: "北京",
-        selectedArea: "东城区"
+        selectedProvince: "河北省",
+        selectedCity: "秦皇岛市",
+        selectedArea: "海港区"
     };
 
     constructor(props) {
@@ -27,17 +27,18 @@ export default class AreaSelector extends Component {
     }
 
     componentDidMount() {
+        // 初始加载数据
         let province = this._getProvince();
-        let city = this._getProvinceCity(province[0]);
-        let area = this._getProvinceCityArea(province[0], city[0]);
+        let city = this._getProvinceCity(province[2]);
+        let area = this._getProvinceCityArea(province[2], city[2]);
 
         this.setState({
             province: province,
             city: city,
             area: area,
-            selectedProvince: province[0],
-            selectedCity: city[0],
-            selectedArea: area[0]
+            selectedProvince: province[2], // 默认河北省
+            selectedCity: city[2], // 秦皇岛市
+            selectedArea: area[2] // 海港区
         });
     }
 
