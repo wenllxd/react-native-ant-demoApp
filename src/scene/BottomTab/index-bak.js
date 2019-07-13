@@ -7,18 +7,8 @@ import {
 import AsyncStorage from "@react-native-community/async-storage";
 // 引入页面
 import PublishScene from "../Publish/PublishScene";
-import TestPage from "../Publish/MyTextInput";
-
 import SellScene from "../Sell/SellScene";
-
 import MineScene from "../Mine/MineScene";
-// 子页面
-import UserInfoScene from "../Mine/UserInfoScene";
-import MyPublish from "../Mine/myPublish.js";
-import MyCollect from "../Mine/myCollect.js";
-import UploadAvatarScene from "../Mine/UploadAvatarScene";
-import UpdateNickName from "../Mine/UpdateNickName";
-import UpdatePassword from "../Mine/UpdatePassword";
 
 import publishIcon1 from "../../assets/images/publish1.png";
 import publishIcon2 from "../../assets/images/publish2.png";
@@ -29,33 +19,19 @@ import mineIcon2 from "../../assets/images/mine2.png";
 
 import AuthTest from "../Mine/AuthTest";
 
-const PublishStack = createStackNavigator(
-    {
-        Publish: {
-            screen: PublishScene,
-            navigationOptions: {
-                headerTitle: "我要创建",
-                headerBackTitle: "返回",
-                headerTintColor: "#fff",
-                headerStyle: {
-                    backgroundColor: "#e91e63"
-                }
+const PublishStack = createStackNavigator({
+    Publish: {
+        screen: PublishScene,
+        navigationOptions: {
+            headerTitle: "我要创建",
+            headerBackTitle: "返回",
+            headerTintColor: "#fff",
+            headerStyle: {
+                backgroundColor: "#e91e63"
             }
-        },
-        TestPage: {
-            screen: TestPage
-        }
-    },
-    {
-        navigationOptions: ({ navigation }) => {
-            let tabBarVisible = true; // 主页面,子页面显不显示底部tab
-            if (navigation.state.index > 0) {
-                tabBarVisible = false;
-            }
-            return { tabBarVisible };
         }
     }
-);
+});
 const SellStack = createStackNavigator({
     Sell: {
         screen: SellScene,
@@ -66,54 +42,43 @@ const SellStack = createStackNavigator({
     }
 });
 // 按这个格式新增路由，如果是子路由就放到对应主路由下，各页面也可以互相调用
-const MineStack = createStackNavigator(
-    {
-        Mine: {
-            screen: MineScene,
-            navigationOptions: {
-                headerTitle: "个人中心",
-                headerBackTitle: "个人中心",
-                headerTintColor: "#fff",
-                headerStyle: {
-                    backgroundColor: "#e91e63"
-                }
+const MineStack = createStackNavigator({
+    Mine: {
+        screen: MineScene,
+        navigationOptions: {
+            headerTitle: "个人中心",
+            headerBackTitle: "个人中心",
+            headerTintColor: "#fff",
+            headerStyle: {
+                backgroundColor: "#e91e63"
             }
-        },
-        UserInfo: {
-            screen: UserInfoScene,
-            navigationOptions: ({ navigation }) => {
-                return {
-                    headerTitle: "个人信息",
-                    headerBackTitle: "设置"
-                };
-            }
-        },
-        UploadAvatar: {
-            screen: UploadAvatarScene
-        },
-        UpdateNickName: {
-            screen: UpdateNickName
-        },
-        UpdatePassword: {
-            screen: UpdatePassword
-        },
-        MyPublish: {
-            screen: MyPublish
-        },
-        MyCollect: {
-            screen: MyCollect
+        }
+    } /*
+    Login: {
+        screen: LoginScene,
+        navigationOptions: {
+            headerTitle: "登录"
         }
     },
-    {
-        navigationOptions: ({ navigation }) => {
-            let tabBarVisible = true;
-            if (navigation.state.index > 0) {
-                tabBarVisible = false;
-            }
-            return { tabBarVisible };
+    Register: {
+        screen: RegisterScene,
+        navigationOptions: {
+            headerTitle: "注册"
         }
-    }
-);
+    },
+    UserInfo: {
+        screen: UserInfoScene,
+        navigationOptions: {
+            headerBackTitle: "返回"
+        }
+    },
+    UploadAvatar: {
+        screen: UploadAvatarScene,
+        navigationOptions: {
+            headerBackTitle: "返回"
+        }
+    }*/
+});
 
 // 底部导航器的一个单独配置
 const BottomNavigator = createBottomTabNavigator(
@@ -189,7 +154,7 @@ const BottomNavigator = createBottomTabNavigator(
         }*/
     },
     {
-        initialRouteName: "Mine2", // 第一次加载时初始化选项卡路由的routeName
+        initialRouteName: "Publish2", // 第一次加载时初始化选项卡路由的routeName
 
         //order: ["Home", "Demand", "Publish", "Sell", "Mine"], // 定义选项卡顺序的数组
         tabBarOptions: {

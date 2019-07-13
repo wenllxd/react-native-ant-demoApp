@@ -24,7 +24,7 @@ export default class UserInfo extends Component {
             isLogin: false,
             username: "",
             image: null,
-            avatarSource: null
+            avatarSource: defaultImg
         };
         this._getAsyncState();
     }
@@ -32,13 +32,21 @@ export default class UserInfo extends Component {
         // key为name,值为用户名
         const userToken = await AsyncStorage.getItem("user");
         const userData = JSON.parse(userToken);
-        // console.log(userToken); // 输出密码
+        //console.log(userToken); // 输出密码
         //如果有token则跳转到主页，否则跳到登录操作去登录
+        let avatar = null;
+
+        if (userData.avatar === null) {
+            avatar = this.state.avatarSource;
+        } else {
+            avatar = userData.avatar;
+        }
+
         if (userToken) {
             this.setState({
                 isLogin: true,
                 username: userData.name,
-                avatarSource: userData.avatar
+                avatarSource: avatar
             });
         } else {
             // Login1 外面的路由
@@ -109,14 +117,10 @@ export default class UserInfo extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.avatar}>
-                    {this.state.avatarSource === null ? (
-                        <Image source={defaultImg} style={styles.avatar} />
-                    ) : (
-                        <Image
-                            style={styles.avatar}
-                            source={this.state.avatarSource}
-                        />
-                    )}
+                    <Image
+                        style={styles.avatar}
+                        source={this.state.avatarSource}
+                    />
                 </View>
                 <TouchableOpacity
                     style={styles.chooseBtn}

@@ -22,7 +22,7 @@ export default class UserInfo extends Component {
             isLogin: false,
             username: "",
             nickName: "",
-            avatar: null,
+            avatar: defaultImg,
             pwd: ""
         };
         this._getAsyncState();
@@ -33,15 +33,21 @@ export default class UserInfo extends Component {
         const userToken = await AsyncStorage.getItem("user");
         let userData = JSON.parse(userToken);
 
-        // console.log(userToken); // 输出密码
+        //console.log(userToken); // 输出密码
         //如果有token则跳转到主页，否则跳到登录操作去登录
+        let avatar = null;
+        if (userData.avatar === null) {
+            avatar = this.state.avatar;
+        } else {
+            avatar = userData.avatar;
+        }
         if (userToken) {
             this.setState({
                 isLogin: true,
                 username: userData.name,
                 pwd: userData.pwd,
                 nickName: userData.nickName,
-                avatar: userData.avatar
+                avatar: avatar
             });
 
             //console.log(this.avatar === null);
@@ -61,14 +67,7 @@ export default class UserInfo extends Component {
                     }}
                 >
                     <Text style={styles.avatarText}>头像</Text>
-                    <Image
-                        source={
-                            this.state.avatar === null
-                                ? defaultImg
-                                : this.state.avatar
-                        }
-                        style={styles.avatar}
-                    />
+                    <Image source={this.state.avatar} style={styles.avatar} />
                     <Image source={arrowRight} style={styles.img} />
                 </TouchableOpacity>
                 <View style={styles.InfoView}>

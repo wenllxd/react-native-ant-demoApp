@@ -24,11 +24,12 @@ export default class MineScene extends Component {
         this.state = {
             isLogin: false,
             username: "", //用户名
-            avatar: null,
+            avatar: defaultImg,
             nickName: "" //昵称
         };
         this._getAsyncState();
     }
+
     static navigationOptions = {
         title: "Welcome to the HomePage",
         tabBarLabel: "我的",
@@ -42,25 +43,55 @@ export default class MineScene extends Component {
     };
 
     //获取登录状态
+    //异步
     _getAsyncState = async () => {
         // key为name,值为用户名
         const userToken = await AsyncStorage.getItem("user");
         //反序列化
         let userData = JSON.parse(userToken);
-        console.log(JSON.parse(userToken)); // 输出密码
+        //console.log(JSON.parse(userToken));
         //如果有token则跳转到主页，否则跳到登录操作去登录
+        let avatar = null;
+        if (userData.avatar === null) {
+            avatar = this.state.avatar;
+        } else {
+            avatar = userData.avatar;
+        }
         if (userToken) {
             this.setState({
                 isLogin: true,
                 username: userData.name,
                 nickName: userData.nickName,
-                avatar: userData.avatar
+                avatar: avatar
             });
         } else {
             // Login1 外面的路由
             this.props.navigation.navigate("Login1");
         }
     };
+
+    /*同步
+    _getAsyncState = () => {
+        AsyncStorage.getItem("user", (err, result) => {
+            if (result) {
+                let userData = JSON.parse(result);
+                let avatar = null;
+                if (userData.avatar === null) {
+                    avatar = this.state.avatar;
+                } else {
+                    avatar = userData.avatar;
+                }
+                this.setState({
+                    isLogin: true,
+                    username: userData.name,
+                    nickName: userData.nickName,
+                    avatar: avatar
+                });
+            } else {
+                this.props.navigation.navigate("Login1");
+            }
+        });
+    };*/
 
     //注销
     _signOutAsync = async () => {
@@ -79,6 +110,9 @@ export default class MineScene extends Component {
     };
 
     render() {
+        const imgView = (
+            <Image style={styles.avatar} source={this.state.avatar} />
+        );
         const { navigate, state, setParams } = this.props.navigation;
         return (
             <SafeAreaView style={styles.container}>
@@ -86,20 +120,10 @@ export default class MineScene extends Component {
                     style={styles.userInfo}
                     activeOpacity={0.9}
                     onPress={() => {
-                        navigate("UserInfo", {
-                            // 退回的上一级路由名区别：Mine2有tab,Mine没有tab
-                            backRouteName: "Mine2"
-                        });
+                        navigate("UserInfo");
                     }}
                 >
-                    <Image
-                        style={styles.avatar}
-                        source={
-                            this.state.avatar === null
-                                ? defaultImg
-                                : this.state.avatar
-                        }
-                    />
+                    {imgView}
                     <TouchableOpacity
                         style={styles.userInfo}
                         activeOpacity={0.9}
@@ -121,10 +145,7 @@ export default class MineScene extends Component {
                     style={styles.mineList}
                     activeOpacity={0.9}
                     onPress={() => {
-                        this.props.navigation.navigate("MyPublish", {
-                            // 退回的上一级路由名区别：Mine2有tab,Mine没有tab
-                            backRouteName: "Mine2"
-                        });
+                        this.props.navigation.navigate("MyPublish");
                     }}
                 >
                     <Image style={styles.publishImg} source={publish3} />

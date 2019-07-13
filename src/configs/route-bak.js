@@ -20,7 +20,13 @@ import LoginScene from "../scene/Mine/LoginScene";
 import RegisterScene from "../scene/Mine/RegisterScene";
 
 import MineScene from "../scene/Mine/MineScene";
-
+// 子页面
+import MyPublish from "../scene/Mine/myPublish.js";
+import MyCollect from "../scene/Mine/myCollect.js";
+import UserInfoScene from "../scene/Mine/UserInfoScene";
+import UploadAvatarScene from "../scene/Mine/UploadAvatarScene";
+import UpdatePassword from "../scene/Mine/UpdatePassword";
+import UpdateNickName from "../scene/Mine/UpdateNickName";
 /**
  * 验证登录状态流程（暂时先判断个人中心）
  * 1.点击个人中心--->
@@ -39,7 +45,7 @@ class AuthLoadingScreen extends Component {
         const userToken = await AsyncStorage.getItem("user");
         console.log("路由route打印:" + userToken);
         //如果有token则跳转到个人中心，否则跳到登录操作去登录
-        this.props.navigation.navigate(userToken ? "Mine2" : "Login1");
+        this.props.navigation.navigate(userToken ? "Publish2" : "Login1");
         //his.props.navigation.navigate("Home");
     };
     render() {
@@ -94,6 +100,81 @@ const MineStack1 = createStackNavigator({
         screen: RegisterScene,
         navigationOptions: {
             headerTitle: "注册"
+        }
+    },
+    UserInfo: {
+        screen: UserInfoScene,
+        navigationOptions: ({ navigation }) => {
+            const { params } = navigation.state;
+            // backRouteName参数 在页面调用的时候一定要定义，否则报错
+
+            let name = params.backRouteName ? params.backRouteName : "Mine2";
+            console.log(navigation);
+            return {
+                headerTitle: "个人信息",
+                headerBackTitle: "设置",
+                headerLeft: (
+                    <Button
+                        title="返回"
+                        onPress={() => {
+                            navigation.navigate(name);
+                        }}
+                    />
+                )
+            };
+        }
+    },
+    UploadAvatar: {
+        screen: UploadAvatarScene
+    },
+    UpdatePassword: {
+        screen: UpdatePassword
+    },
+    UpdateNickName: {
+        screen: UpdateNickName
+    },
+    MyPublish: {
+        screen: MyPublish,
+        navigationOptions: ({ navigation }) => {
+            const { params } = navigation.state;
+            // backRouteName参数 在页面调用的时候一定要定义，否则报错
+
+            let name = params.backRouteName ? params.backRouteName : "Mine2";
+            console.log(navigation);
+            return {
+                headerTitle: "个人信息",
+                headerBackTitle: "返回",
+                headerLeft: (
+                    <Button
+                        title="返回"
+                        onPress={() => {
+                            navigation.navigate(name);
+                        }}
+                    />
+                )
+            };
+        }
+    },
+    MyCollect: {
+        screen: MyCollect,
+        navigationOptions: ({ navigation }) => {
+            const { params } = navigation.state;
+            // backRouteName参数 在页面调用的时候一定要定义，否则报错
+
+            let name = params.backRouteName ? params.backRouteName : "Mine2";
+            console.log(navigation);
+            return {
+                headerTitle: "个人信息",
+                headerBackTitle: "返回",
+                headerLeft: (
+                    <Button
+                        title="返回"
+                        onPress={() => {
+                            navigation.navigate(name);
+                        }}
+                    />
+                )
+            };
         }
     }
 });

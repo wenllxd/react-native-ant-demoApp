@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TextInput, Platform } from "react-native";
+import { Text, View, Platform } from "react-native";
 
 // 首页
 export default class MyTextInput extends Component {
@@ -15,6 +15,10 @@ export default class MyTextInput extends Component {
     }
 
     render() {
-        return <TextInput {...this.props} />;
+        return (
+            <View>
+                <Text>子页面测试--隐藏tab</Text>
+            </View>
+        );
     }
 }

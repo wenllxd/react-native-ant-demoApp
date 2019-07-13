@@ -218,6 +218,12 @@ export default class PublishScene extends Component {
     render() {
         return (
             <ScrollView style={styles.container}>
+                <Button
+                    title="跳转子页面"
+                    onPress={() => {
+                        this.props.navigation.navigate("TestPage");
+                    }}
+                />
                 <View style={styles.box}>
                     <Text style={styles.textCell}>名称</Text>
                     <TextInput
